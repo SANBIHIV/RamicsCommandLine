@@ -31,6 +31,6 @@ Once the job has be uploaded and added to the queue for processing, a job ID is 
 Results
 =
 
-The results for a RAMICS job can be viewed online by visiting http://hiv.sanbi.ac.za/tools/#/ramics/jobs/<job ID> .
+The results for a RAMICS job can be viewed online by visiting `http://hiv.sanbi.ac.za/tools/#/ramics/jobs/<job ID>`.
 
-To download a results record in JSON format, send a GET request to https://hiv-tools-api.sanbi.ac.za/v2/jobs/<job ID>/results . If the job has not finished running, the response will be an empty array named `job_results` otherwise the array will contain a single object with links to each of the available output files.
+To download a results record in JSON format, send a GET request to `https://hiv-tools-api.sanbi.ac.za/v2/jobs/<job ID>/results`. If the job has not finished running, the response will be an empty array named `job_results` otherwise the array will contain a single object with links to each of the available output files.
