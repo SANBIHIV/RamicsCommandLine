@@ -10,7 +10,7 @@ parameters = ARGV[3]
 url = "https://hiv-tools-api.sanbi.ac.za/v2"
 
 job = {tool: 'Ramics', name: name}
-job['parameters'] = JSON.parse(parameters)
+job['parameters'] = JSON.parse(parameters) unless parameters.nil?
 job['input_files'] = {}
 
 [sample_file, reference_file].each_with_index do |file, i|

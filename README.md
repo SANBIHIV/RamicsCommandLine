@@ -8,33 +8,29 @@ Run `bundle install` in this directory to install the required gems.
 Usage
 =
 
-login.rb
+ramics.rb
 ==
 
-This script obtains an api key for your account and prints it to the standard output.
+Run this script by calling `ruby ramics.rb <name> <sample file> <reference file> <parameters>`. The name given to the job is for your own convenience when recognising the results later. The sample file contains the sequence(s) to be aligned. The reference file is the sequence against which the sample is aligned. And the parameters are a JSON formatted string of options to RAMICS. The JSON object has keys of the parameters names with corresponding values. For flag parameters, the value should be true. All parameters should be specified with one less leading `-` than would be used as a command line option.
 
-Run `ruby login.rb <email> <password>`.
+For all available options, see the man page included in this repository -- `man ./ramics.8`.
+ 
+At least one output type must be specified as a parameter. The options are:
 
-seq2res.rb
-==
+- `-print-mutations`
+- `-print-codons`
+- `-print-cleaned`
+- `-print-global`
+- `-print-pairs`
+- `-print-sam`
 
-This script runs Seq2Res on files stored on your computer. For files which are already online, this is not the most efficient approach.
+For example, to get RAMICS to produce a global alignment and to output in Sam format, the parameters would be: `"{\"-print-global\":\"true\",\"-print-sam\":\"true\"}"`
 
-First login by running `login.rb` which will print out your api key.
+Once the job has be uploaded and added to the queue for processing, a job ID is printed to STDOUT. This ID is used to retrieve the results for that job.
 
-Then create a job by running `ruby seq2res.rb <api key> sequence.fastq MIDlist.txt primers.txt "{\"keyseqlen\":\"4\",\"trim\":\"m=20,l=50,mode=2\",\"analysis_type\":\"0\",\"mt\":\"2\",\"pt\":\"4\",\"cutoff\":\"15\"}"`
+Results
+=
 
-The order of the arguments is: api key, fastq file, mid file, primer file, name, parameters
+The results for a RAMICS job can be viewed online by visiting http://hiv.sanbi.ac.za/tools/#/ramics/jobs/<job ID> .
 
-An example of the parameters is in parameters.txt
-
-get_reports.rb
-==
-
-This script prints out drug resistance reports for a specified job ID. This is the job ID printed by seq2res.rb. 
-
-Run `ruby get_reports.rb <api key> <job id> <mids>`.
-
-Where `mids` is an optional argument and may be 1 or MID's that you wish to print tables for. By default, all MID's are printed.
-
-The tables are printed to two files named `<job_name>_<mid>_consensus-like.txt` and `<job_name>_<mid>_ultra-deep.txt`.
+To download a results record in JSON format, send a GET request to https://hiv-tools-api.sanbi.ac.za/v2/jobs/<job ID>/results . If the job has not finished running, the response will be an empty array named `job_results` otherwise the array will contain a single object with links to each of the available output files.
